@@ -1,52 +1,40 @@
 package VehicleRental;
 
-public class Motorbike extends Vehicle{
-    private String helmetbrand;
-    private boolean twowheelbike;
+public class Motorbike extends Vehicle {
+    private final boolean helmetBrand; // Corrected spelling and made final
 
-    public Motorbike (String vehicleId, String model, double baseRentalRate,boolean twowheelbike){
+    public Motorbike(String vehicleId, String model, double baseRentalRate, boolean helmetBrand) {
         super(vehicleId, model, baseRentalRate);
-        this.twowheelbike =twowheelbike;
-
+        this.helmetBrand = helmetBrand;
     }
 
-    public String getHelmetbrand() {
-        return helmetbrand;
-    }
-
-    public boolean isTwowheelbike() {
-        return twowheelbike;
-    }
-
-    public void setTwowheelbike(boolean twowheelbike) {
-        this.twowheelbike = twowheelbike;
-    }
-
-    @Override
-    public double baseRentalRate(int days) {
-        return 0;
+    public boolean getHelmetBrand() {
+        return helmetBrand;
     }
 
     @Override
     public double calculateRentalCost(int days) {
+        // Add any additional costs for motorbikes here. For example:
         double cost = super.getBaseRentalRate() * days;
-        if (twowheelbike) {
-            cost += days * 10;
-        }
+        // Add a surcharge for helmet rental if needed, or other motorbike specific costs.
         return cost;
     }
 
     @Override
-    public void setAvailable(boolean b) {
-
+    public void setAvailable(boolean available) {
+        super.setAvailable(available);
     }
 
     @Override
     public boolean isAvailableForRental() {
-        return false;
+        return super.isAvailable();
     }
 
-    public void setHelmetbrand(String helmetbrand) {
-        this.helmetbrand = helmetbrand;
+    @Override
+    public String toString() {
+        return "Motorbike{" +
+                "helmetBrand='" + helmetBrand + '\'' +
+                ", " + super.toString() +
+                '}';
     }
 }

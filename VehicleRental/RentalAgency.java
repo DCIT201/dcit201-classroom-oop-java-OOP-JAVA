@@ -5,8 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-public class RentalAgency implements RentalService {
+public abstract class RentalAgency implements RentalService {
     private final Map<String, Vehicle> vehicleFleet;
     private final List<RentalTransaction> rentalTransactions = new ArrayList<>();
 
@@ -18,21 +17,25 @@ public class RentalAgency implements RentalService {
         vehicleFleet.put(vehicle.getVehicleId(), vehicle);
     }
 
-    public void rentVehicle(String vehicleId, int days) throws IllegalArgumentException {
+    public void rentVehicle(String vehicleId, Customer customer, int days) throws IllegalArgumentException {
         Vehicle vehicle = vehicleFleet.get(vehicleId);
         if (vehicle == null || !vehicle.isAvailableForRental()) {
             throw new IllegalArgumentException("Vehicle not found or not available for rent.");
         }
-        RentalTransaction.add();
-        vehicle.setAvailable(false); // Update availability
+        RentalTransaction transaction = new RentalTransaction(vehicle, customer, days); // Create transaction
+        rentalTransactions.add(transaction); // Add to transactions list
+        vehicle.setAvailable(false);
     }
 
-    public void returnVehicle(String vehicleId) {
+    public void returnVehicle(String vehicleId) throws IllegalArgumentException {
         Vehicle vehicle = vehicleFleet.get(vehicleId);
         if (vehicle == null) {
             throw new IllegalArgumentException("Vehicle not found.");
         }
-        vehicle.setAvailable(true); // Update availability
+
+        //Find and remove the transaction (important!)
+        rentalTransactions.removeIf(transaction -> transaction.getVehicle().getVehicleId().equals(vehicleId));
+        vehicle.setAvailable(true);
     }
 
     public String generateReport() {
@@ -49,6 +52,22 @@ public class RentalAgency implements RentalService {
         return report.toString();
     }
 
+    // Remove the unnecessary and incomplete methods:
+    // @Override
+    // public void rent(Customer customer, int days) {}
+
+    // @Override
+    // public void returnVehicle() {}
+
+    // public Vehicle getVehicle() { return null; }
+
+    // You can keep one rentVehicle method (this one is better):
+    // public void rentVehicle(String vehicleId, Customer customer, int days) {}
+
+
+    public Map<String, Vehicle> getVehicleFleet() {
+        return vehicleFleet; // Added getter for debugging purposes
+    }
 
     @Override
     public void rent(Customer customer, int days) {
@@ -59,9 +78,4 @@ public class RentalAgency implements RentalService {
     public void returnVehicle() {
 
     }
-
-    public Vehicle getVehicle() {
-        return null;
-    }
-
 }

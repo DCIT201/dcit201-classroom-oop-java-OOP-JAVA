@@ -1,28 +1,23 @@
 package VehicleRental;
 
 public abstract class Vehicle {
-
     private final String vehicleId;
     private final String model;
     private double baseRentalRate;
-    private boolean isAvailable;
+    private boolean isAvailable = true; // Initialize to available
 
     public Vehicle(String vehicleId, String model, double baseRentalRate) {
         this.vehicleId = vehicleId;
         this.model = model;
-        this.baseRentalRate = baseRentalRate;
-        this.isAvailable =isAvailable();
-    }
-
-    public Vehicle() {
-
-        model = "";
-        baseRentalRate = 0;
-        vehicleId = "";
+        this.setBaseRentalRate(baseRentalRate); // Use the setter for validation
     }
 
     public String getVehicleId() {
         return vehicleId;
+    }
+
+    public String getModel() {
+        return model;
     }
 
     public double getBaseRentalRate() {
@@ -33,9 +28,14 @@ public abstract class Vehicle {
         return isAvailable;
     }
 
-    public abstract double baseRentalRate(int days);
+    public void setAvailable(boolean available) {
+        this.isAvailable = available;
+    }
 
-    public abstract double calculateRentalCost(int days);
+    public boolean isAvailableForRental() {
+        return isAvailable;
+    }
+
     public void setBaseRentalRate(double rate) {
         if (rate > 0) {
             this.baseRentalRate = rate;
@@ -43,6 +43,8 @@ public abstract class Vehicle {
             throw new IllegalArgumentException("Rental rate must be positive.");
         }
     }
+
+    public abstract double calculateRentalCost(int days);
 
     @Override
     public String toString() {
@@ -53,10 +55,5 @@ public abstract class Vehicle {
                 ", isAvailable=" + isAvailable +
                 '}';
     }
-
-
-    public abstract void setAvailable(boolean b);
-
-    public abstract boolean isAvailableForRental();
 }
 

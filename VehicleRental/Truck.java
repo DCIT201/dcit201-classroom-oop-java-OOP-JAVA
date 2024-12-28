@@ -1,49 +1,51 @@
 package VehicleRental;
 
-public class Truck extends Vehicle{
-    private boolean weight;
-    private int trunksize;
+public class Truck extends Vehicle {
+private final boolean isHeavyDuty; // More descriptive name
+private final int trunkSize; // Corrected spelling and made final
 
-    public Truck(String vehicleId, String model, double baseRentalRate, boolean weight, int trunksize){
-        super(vehicleId, model, baseRentalRate);
-        this.weight = weight;
-        this.trunksize = trunksize;
+public Truck(String vehicleId, String model, double baseRentalRate, boolean isHeavyDuty, int trunkSize) {
+    super(vehicleId, model, baseRentalRate);
+    this.isHeavyDuty = isHeavyDuty;
+    this.trunkSize = trunkSize;
+}
+
+public int getTrunkSize() {
+    return trunkSize;
+}
+
+public boolean isHeavyDuty() {
+    return isHeavyDuty;
+}
+
+@Override
+public double calculateRentalCost(int days) {
+    double cost = super.getBaseRentalRate() * days;
+
+    // Add additional costs based on truck characteristics
+    if (isHeavyDuty) {
+        cost += days * 20; // Example: Higher daily rate for heavy-duty trucks
     }
+    // Add any other fees for the truck (e.g., based on trunkSize)
+    return cost;
+}
 
+@Override
+public void setAvailable(boolean available) {
+    super.setAvailable(available);
+}
 
-    public int getTrunksize() {
-        return trunksize;
-    }
+@Override
+public boolean isAvailableForRental() {
+    return super.isAvailable();
+}
 
-    public void setTrunksize(int trunksize) {
-        this.trunksize = trunksize;
-    }
-
-    public boolean getWeight() {
-        return weight;
-    }
-
-    public void setWeight(boolean weight) {
-        this.weight = weight;
-    }
-
-    @Override
-    public double baseRentalRate(int days) {
-        return 0;
-    }
-
-    @Override
-    public double calculateRentalCost(int days) {
-        return 0;
-    }
-
-    @Override
-    public void setAvailable(boolean b) {
-
-    }
-
-    @Override
-    public boolean isAvailableForRental() {
-        return false;
-    }
+@Override
+public String toString() {
+    return "Truck{" +
+            "isHeavyDuty=" + isHeavyDuty +
+            ", trunkSize=" + trunkSize +
+            ", " + super.toString() +
+            '}';
+}
 }
