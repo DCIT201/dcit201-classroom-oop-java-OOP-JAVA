@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RentalAgency {
-    private List<Vehicle> fleet;
+    private List<Vehicle> garage;
 
     public RentalAgency() {
-        this.fleet = new ArrayList<>();
+        this.garage = new ArrayList<>();
     }
 
     public void addVehicle(Vehicle vehicle) {
-        fleet.add(vehicle);
+        garage.add(vehicle);
     }
 
     public Vehicle findAvailableVehicle(String model) {
-        for (Vehicle vehicle : fleet) {
+        for (Vehicle vehicle : garage) {
             if (vehicle.getModel().equalsIgnoreCase(model) && vehicle.isAvailable()) {
                 return vehicle;
             }
