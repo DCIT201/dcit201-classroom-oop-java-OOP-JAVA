@@ -1,0 +1,152 @@
+# Vehicle Rental Management System Documentation
+
+## Overview
+This document provides a comprehensive overview of the Vehicle Rental Management System, detailing its classes, methods, fields, and how it adheres to Object-Oriented Programming (OOP) principles.
+
+---
+
+## Classes and Responsibilities
+
+### Abstract Class: `Vehicle`
+**Purpose**: Serves as the base class for all vehicle types.
+
+#### Fields:
+- `vehicleId`: Unique identifier for the vehicle.
+- `model`: Vehicle model.
+- `baseRentalRate`: Base rate for calculating rental costs.
+- `isAvailable`: Availability status of the vehicle.
+
+#### Methods:
+- `calculateRentalCost(int days)`: Abstract method for cost calculation.
+- `isAvailableForRental()`: Abstract method to check availability.
+
+**OOP Principle**: Abstraction
+- The class encapsulates common behaviors and attributes of all vehicle types and enforces implementation of specific methods in derived classes.
+
+---
+
+### Concrete Classes: `Car`, `Motorcycle`, `Truck`
+**Purpose**: Provide specific implementations of `Vehicle`.
+
+#### Unique Fields:
+- `Car`: Includes seating capacity and type.
+- `Motorcycle`: Includes engine capacity.
+- `Truck`: Includes payload capacity.
+
+#### Implemented Methods:
+- Override `calculateRentalCost` for unique pricing rules.
+- Override `isAvailableForRental` with type-specific logic.
+
+**OOP Principles**:
+- Inheritance: Inherit common properties and behaviors from `Vehicle`.
+- Polymorphism: Provide type-specific implementations of abstract methods.
+
+---
+
+### Interface: `Rentable`
+**Purpose**: Standardizes rental and return operations across vehicle types.
+
+#### Methods:
+- `rent(Customer customer, int days)`: Handles renting a vehicle.
+- `returnVehicle()`: Handles returning a vehicle.
+
+**OOP Principle**: Polymorphism
+- Ensures consistent behavior while allowing flexibility in implementation for different vehicle types.
+
+---
+
+### Supporting Class: `Customer`
+**Purpose**: Represents customers with rental history and current rentals.
+
+#### Fields:
+- `name`: Customer's name.
+- `currentRentals`: List of currently rented vehicles.
+- `rentalHistory`: List of past rentals.
+
+#### Methods:
+- `rentVehicle(Vehicle vehicle)`: Adds a vehicle to current rentals.
+- `returnVehicle(Vehicle vehicle)`: Moves a vehicle from current rentals to rental history.
+
+**OOP Principle**: Encapsulation
+- Private fields with public getters and setters ensure controlled access.
+
+---
+
+### Supporting Class: `RentalTransaction`
+**Purpose**: Tracks details of each rental.
+
+#### Fields:
+- `transactionId`: Unique identifier for the transaction.
+- `customer`: Associated customer.
+- `vehicle`: Associated vehicle.
+- `rentalDate`: Start date of the rental.
+- `returnDate`: Expected return date.
+- `totalCost`: Total cost of the rental.
+
+#### Methods:
+- Constructor calculates total cost.
+- `displayTransactionDetails()`: Displays transaction information.
+
+**OOP Principles**:
+- Encapsulation: Ensures fields are private with controlled access.
+- Composition: Composed within `RentalAgency` to track transactions.
+
+---
+
+### Core Class: `RentalAgency`
+**Purpose**: Manages vehicle fleet, processes transactions, and generates reports.
+
+#### Fields:
+- `agencyName`: Name of the rental agency.
+- `vehicleFleet`: List of all vehicles in the fleet.
+- `rentalTransactions`: List of all transactions.
+
+#### Methods:
+- `addVehicleToFleet(Vehicle vehicle)`: Adds a new vehicle to the fleet.
+- `rentVehicle(Customer customer, String vehicleId, int rentalDurationDays)`: Processes rentals.
+- `returnVehicle(Customer customer, String vehicleId)`: Processes returns.
+- `generateRentalReport()`: Generates a detailed report of all transactions.
+- `displayFleet()`: Lists all vehicles in the fleet.
+
+**OOP Principles**:
+- Encapsulation: Fields are private with methods to manage access.
+- Composition: Uses `Vehicle`, `Customer`, and `RentalTransaction` to provide functionality.
+
+---
+
+## System Design and OOP Principles
+
+### 1. Encapsulation
+- All fields in every class are private.
+- Controlled access through public getters and setters.
+- Ensures data integrity and prevents unauthorized modification.
+
+### 2. Inheritance
+- The `Vehicle` class serves as the base class.
+- Concrete classes (`Car`, `Motorcycle`, `Truck`) inherit and extend `Vehicle`.
+
+### 3. Polymorphism
+- Abstract methods in `Vehicle` are overridden in concrete classes.
+- `Rentable` interface allows consistent behavior across different vehicle types.
+
+### 4. Abstraction
+- The `Vehicle` class defines the structure and behavior expected of all vehicles.
+- Details specific to each vehicle type are abstracted away from the base class.
+
+### 5. Composition
+- `RentalAgency` uses `Vehicle`, `Customer`, and `RentalTransaction` objects to achieve its functionality.
+- Promotes modularity and code reuse.
+
+---
+
+## Future Enhancements
+- Implement a loyalty program for frequent renters.
+- Add a rating system for vehicles and customers.
+- Integrate external payment systems.
+- Develop a user interface for better usability.
+
+---
+
+## Conclusion
+The Vehicle Rental Management System effectively demonstrates all core OOP principles through its design. Each class and interface serves a clear purpose, ensuring modularity, scalability, and maintainability.
+
